@@ -77,6 +77,17 @@ install(
     script/real_joint_move.py 
   DESTINATION lib/${PROJECT_NAME}
 )
+install(
+  PROGRAMS
+    script/upper_decision_publisher.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(
+  FILES
+    script/upper_decision_input.py
+    script/decision_process.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 install(TARGETS 
   moveit_client rob_shutdown
   DESTINATION
