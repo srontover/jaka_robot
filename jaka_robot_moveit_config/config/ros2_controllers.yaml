@@ -12,6 +12,9 @@ controller_manager:
       type: joint_trajectory_controller/JointTrajectoryController
 
     # Joint state broadcasters for both hardware systems
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
     arm_joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
@@ -50,6 +53,11 @@ gripper_controller:
       - velocity
     # Specify which hardware this controller belongs to
     hardware_name: jaka_gripper_hardware
+
+# Arm joint state broadcaster - publishes arm joint states
+joint_state_broadcaster:
+  ros__parameters:
+    use_local_topics: false
 
 # Arm joint state broadcaster - publishes arm joint states
 arm_joint_state_broadcaster:

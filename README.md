@@ -31,3 +31,14 @@ ros2 launch jaka_planner moveit_server.launch.py
 # 3. 启动实体控制 UI
 ros2 launch user_commands ui.launch.py
 ```
+
+###### upper decision layer control
+start in simulation
+```bash
+ros2 launch user_commands upper_decision.launch.py
+```
+start in real world(not tested, so not recommended)
+```bash
+ros2 launch user_commands upper_decision.launch.py use_sim_time:=False
+```
+it should be announced that the upper decision layer is not strictly written yet so it may not work in real world, which will beyond the range of the robot or collide with the environment.

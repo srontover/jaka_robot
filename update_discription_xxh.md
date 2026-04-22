@@ -25,3 +25,14 @@ This is the discription of the update.
 
 - consider about how to connect publisher and subscriber
 - input the pose information to moveit-planner
+
+## 2026-4-22
+### what was done
+- add `HeadlessDecisionExecutor` class in `user_commands/script/headless_decision_executor.py`.
+- it executes the decision process in headless mode.
+- add runnable script `user_commands/script/headless_decision_executor.py`.
+- it starts the headless decision executor node directly, you can start it in simulation('use_sim_time:=True') or real world('use_sim_time:=False').
+- update `user_commands/CMakeLists.txt` to install the new headless decision executor script.
+- tackle the problem of state synchronization between headless decision executor and motion control flow.
+### to do
+- test it in real world

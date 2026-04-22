@@ -80,6 +80,7 @@ install(
 install(
   PROGRAMS
     script/upper_decision_publisher.py
+    script/headless_decision_executor.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(

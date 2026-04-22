@@ -34,7 +34,7 @@ class UpperDecisionPoseInput:
 
         if self.enable_upper_decision:
             self.subscription = self.node.create_subscription(
-                PoseStamped, self.segment_pose_topic, self.callback, self.input_rate_hz
+                PoseStamped, self.segment_pose_topic, self.callback, int(self.input_rate_hz)
             )
             self.node.get_logger().info(
                 f"upper decision input enabled on topic {self.segment_pose_topic}"
@@ -97,7 +97,8 @@ class UpperDecisionPublisher(Node):
             self.decision_rate_hz = 10.0
 
         if self.enable_upper_decision:
-            self.publisher = self.create_publisher(PoseStamped, self.segment_pose_topic, self.decision_rate_hz)
+            # 第三参数为发布队列长度(必须为int)，设为10
+            self.publisher = self.create_publisher(PoseStamped, self.segment_pose_topic, 10)
             self.start_time = self.get_clock().now()
             period = 1.0 / self.decision_rate_hz
             self.timer = self.create_timer(period, self._on_timer)
