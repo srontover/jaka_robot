@@ -62,7 +62,13 @@ except ImportError:
         }
 
 def make_decision(elapsed_sec: float) -> PoseStamped:
-    """Call the external decision process and convert result to PoseStamped."""
+    """Call decision process and convert result to PoseStamped.
+
+    Decision output supports two orientation formats:
+    1) Euler angles: rx, ry, rz (radians)
+    2) Quaternion: qx, qy, qz, qw
+    Euler is preferred for upper-layer readability.
+    """
     decision = run_decision_process(elapsed_sec)
 
     msg = PoseStamped()
@@ -70,10 +76,31 @@ def make_decision(elapsed_sec: float) -> PoseStamped:
     msg.pose.position.x = float(decision.get("x", 0.35))
     msg.pose.position.y = float(decision.get("y", 0.0))
     msg.pose.position.z = float(decision.get("z", 0.35))
-    msg.pose.orientation.x = float(decision.get("qx", 0.0))
-    msg.pose.orientation.y = float(decision.get("qy", 0.0))
-    msg.pose.orientation.z = float(decision.get("qz", 0.0))
-    msg.pose.orientation.w = float(decision.get("qw", 1.0))
+
+    # Prefer Euler from decision layer, convert to quaternion for PoseStamped.
+    if all(k in decision for k in ("rx", "ry", "rz")):
+        from math import cos as _cos, sin as _sin
+
+        rx = float(decision.get("rx", 0.0))
+        ry = float(decision.get("ry", 0.0))
+        rz = float(decision.get("rz", 0.0))
+
+        cr = _cos(rx * 0.5)
+        sr = _sin(rx * 0.5)
+        cp = _cos(ry * 0.5)
+        sp = _sin(ry * 0.5)
+        cy = _cos(rz * 0.5)
+        sy = _sin(rz * 0.5)
+
+        msg.pose.orientation.w = cr * cp * cy + sr * sp * sy
+        msg.pose.orientation.x = sr * cp * cy - cr * sp * sy
+        msg.pose.orientation.y = cr * sp * cy + sr * cp * sy
+        msg.pose.orientation.z = cr * cp * sy - sr * sp * cy
+    else:
+        msg.pose.orientation.x = float(decision.get("qx", 0.0))
+        msg.pose.orientation.y = float(decision.get("qy", 0.0))
+        msg.pose.orientation.z = float(decision.get("qz", 0.0))
+        msg.pose.orientation.w = float(decision.get("qw", 1.0))
     return msg
 
 

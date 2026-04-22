@@ -34,5 +34,8 @@ This is the discription of the update.
 - it starts the headless decision executor node directly, you can start it in simulation('use_sim_time:=True') or real world('use_sim_time:=False').
 - update `user_commands/CMakeLists.txt` to install the new headless decision executor script.
 - tackle the problem of state synchronization between headless decision executor and motion control flow.
+- if you want to control the rate of decision process, you can add parameter `decision_rate` in `upper_decision_input.py`.
+- input from of terminal's rotation changes from only quaternion to both quaternion and euler angles.
 ### to do
 - test it in real world
+- add a input form that add motion to last state.

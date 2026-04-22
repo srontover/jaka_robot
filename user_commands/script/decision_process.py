@@ -16,9 +16,8 @@ def run_decision_process(elapsed_sec: float):
         "x": 0.35 + radius * cos(omega * elapsed_sec),
         "y": radius * sin(omega * elapsed_sec),
         "z": 0.35,
-        "qx": 0.0,
-        "qy": 0.0,
-        "qz": 0.0,
-        "qw": 1.0,
+        "rx": 0.0,
+        "ry": 0.0,
+        "rz": 0.0,
         "frame_id": "Link_0",
     }
